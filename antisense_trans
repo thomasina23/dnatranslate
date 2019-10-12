@@ -1,0 +1,75 @@
+#
+#	purpose: code piece to translate DNA sequence to its anti-sense counterpart
+#	
+
+use strict;
+use warnings;
+
+#################################
+# main
+#################################
+
+# get some seq:
+my $sample_dna = 'CCAGAATGGTTACTATGGACATCCGCCAACCATACAAGCTATGGTGAAATGCTTTATCTATCTCATTTTT';
+my $sample_dna2 = 'CCAGAATGGTTACTATGGACATCCGCCAACCATACAAGCTATGGTGAAATGCTTTATCTATCTCATTTTTxatt';
+
+print "original sequence:\n";
+print $sample_dna;
+print "\n\n";
+
+print "translated sequence:\n";
+print trans_seq($sample_dna);
+print "\n\n";
+
+print "antisense sequence:\n";
+print reverseDNA($sample_dna);
+print "\n\n";
+
+print "original sequence 2:\n";
+print $sample_dna2;
+print "\n\n";
+
+print "translated sequence 2:\n";
+print trans_seq($sample_dna2);
+print "\n\n";
+
+print "antisense sequence 2:\n";
+print reverseDNA($sample_dna2);
+print "\n\n";
+
+print "done!\n";
+
+###########################################################################
+# trans. 
+###########################################################################
+
+sub trans_seq {
+  my ($seq)=@_; # subrountine parameter @_
+  my %transTo = ( #hash structure, takes form of {key => value} 
+	 'A'=>'T',
+         'T'=>'A',  
+	 'C'=>'G',
+	 'G'=>'C',
+         'a'=>'t',
+         't'=>'a',
+         'c'=>'g',
+         'g'=>'c',
+        );
+  my $nts_trans=""; # initalize 
+
+  while ($seq =~ /([ATCG])/ig) { # regular express match globally; special '.' sign; case insensitive
+    $nts_trans .= $transTo{$1}; #regular expression special var. $1, .= appending operator
+  }
+ 
+  return  $nts_trans;
+}
+
+###########################################################################
+# antisense trans. 
+###########################################################################
+
+sub reverseDNA {
+  my ($seq)=@_;
+
+  return scalar reverse(trans_seq($seq));
+}
